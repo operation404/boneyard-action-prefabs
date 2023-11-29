@@ -8,9 +8,7 @@ Hooks.once('init', () => {
     initActions();
 
     window.Boneyard = window.Boneyard ?? {};
-    window.Boneyard.ActionPrefabs = {
-        actions: actionAPI,
-    };
+    window.Boneyard.ActionPrefabs = actionAPI;
 });
 
 initSocket();
