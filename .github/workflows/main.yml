@@ -47,6 +47,12 @@ env:
   # processed by this workflow.
   release_module_url: "https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.zip"
 
+  # URL for the license of the specific release.
+  release_license_url: "https://github.com/${{github.repository}}/blob/${{github.event.release.tag_name}}/LICENSEd"
+
+  # URL for the readme of the specific release.
+  release_readme_url: "https://github.com/${{github.repository}}/blob/${{github.event.release.tag_name}}/README.md"
+
 
 on:
   # Only run this workflow when a release is published.
@@ -101,6 +107,8 @@ jobs:
           URL: ${{ env.project_url }}
           MANIFEST: ${{ env.latest_manifest_url }}
           DOWNLOAD: ${{ env.release_module_url }}
+          LICENSE: ${{ env.release_license_url }}
+          README: ${{ env.release_readme_url }}
 
 
       # Create a "module.zip" archive containing all the module's required files.
@@ -117,12 +125,15 @@ jobs:
              ./module.zip                        \
             `# The files that will be included.` \
             module.json                          \
+            setup.js                             \
             README.md                            \
             LICENSE                              \
-            templates                            \
+            templates/                           \
+            assets/                              \
             scripts/                             \
             styles/                              \
             packs/                               \
+            languages/                           \
             language/                            \
             lang/
           # Don't forget to add a backslash at the end of the line for any
