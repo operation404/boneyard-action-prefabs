@@ -1,5 +1,5 @@
-import * as CONST from '../constants.js';
-import { socket, registerSocketFunc } from '../socket.js';
+import * as CONST from './constants.js';
+import { socket, registerSocketFunc } from './socket.js';
 import { actions as genericActions, Action } from './generic.js';
 import * as WWN from './systems/wwn.js';
 import * as DND5E from './systems/dnd5e.js';
@@ -58,7 +58,7 @@ async function resolveActions(document, actions) {
     } else {
         if (game.settings.get(CONST.MODULE, CONST.SETTINGS.PLAYERS_CAN_USE_ACTIONS)) {
             socket.executeAsGM(resolveActions.name, document.uuid, actions);
-        } else throw `Setting allowing players to use Preset Actions is false.`;
+        } else throw `Players disallowed from using action prefabs.`;
     }
 }
 
