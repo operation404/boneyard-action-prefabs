@@ -1,3 +1,4 @@
 {
-    "MODULE.hello": "hello"
+    "SETTINGS.NAME.PLAYERS_CAN_USE_ACTIONS": "Allow Players to use Preset Actions",
+    "SETTINGS.HINT.PLAYERS_CAN_USE_ACTIONS": "Preset actions can modify documents not controlled by the player. This setting can be disabled to prevent non-gamemasters from using actions."
 }
