@@ -1,7 +1,7 @@
 {
   "id": "boneyard-action-prefabs",
   "title": "Boneyard Action Prefabs",
-  "description": "Preset actions for automating tabletop play.",
+  "description": "Action prefabs for automating tabletop play.",
   "version": "#{VERSION}#",
   "library": "false",
   "manifestPlusVersion": "1.2.0",
