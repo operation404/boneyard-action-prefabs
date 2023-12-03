@@ -410,10 +410,7 @@ export class ActiveEffect extends Action {
     };
 
     static compareEffects(e, f) {
-        const name = e.name === f.name;
-        const len = e.statuses.length === f.statuses.size;
-        const status = e.statuses.every((v) => f.statuses.has(v));
-        return name && len && status;
+        return e.name === f.name && e.statuses.length === f.statuses.size && e.statuses.every((v) => f.statuses.has(v));
     }
 
     /**
