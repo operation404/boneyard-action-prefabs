@@ -372,7 +372,7 @@ export class ActiveEffect extends Action {
             apply: async (actor, { effectData, print }) => {
                 const updateEffects = [];
                 const createEffects = effectData.filter((e) => {
-                    const effect = actor.effects.find((f) => f.label === e.label);
+                    const effect = actor.effects.find((f) => this.compareEffects(e, f));
                     if (effect) updateEffects.push({ _id: effect.id, ...e });
                     else return true;
                 });
@@ -392,6 +392,13 @@ export class ActiveEffect extends Action {
             toggle: async () => {},
         },
     };
+
+    static compareEffects(ef1, ef2) {
+        const name = ef1.name === ef2.name;
+        const len = ef1.statuses.length === ef2.statuses.length;
+        const status = ef1.statuses.every((v) => ef2.statuses.includes(v));
+        return name && len && status;
+    }
 
     /**
      * @param {object} data
