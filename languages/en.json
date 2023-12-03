@@ -1,4 +1,4 @@
 {
-    "SETTINGS.NAME.PLAYERS_CAN_USE_ACTIONS": "Allow Players to use Preset Actions",
-    "SETTINGS.HINT.PLAYERS_CAN_USE_ACTIONS": "Preset actions can modify documents not controlled by the player. This setting can be disabled to prevent non-gamemasters from using actions."
+    "SETTINGS.NAME.PLAYERS_CAN_USE_ACTIONS": "Allow Players to use Action Prefabs",
+    "SETTINGS.HINT.PLAYERS_CAN_USE_ACTIONS": "Action Prefabs can modify documents not controlled by the player. This setting can be disabled to prevent non-gamemasters from using them."
 }
