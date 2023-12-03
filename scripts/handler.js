@@ -20,13 +20,13 @@ export const actionAPI = {
         return new action(data);
     },
     /**
-     * @param {Action} action
+     * @param {Class<Action>} actionClass
      */
-    register: (action) => {
-        actionMap[action.name] = action;
-        actionAPI.types[action.name] = action.name;
-        actionAPI.options[action.name] = Object.fromEntries(
-            Object.entries(action.options).map(([key, val]) => [key, Array.isArray(val) ? val : Object.keys(val)])
+    register: (actionClass) => {
+        actionMap[actionClass.name] = actionClass;
+        actionAPI.types[actionClass.name] = actionClass.name;
+        actionAPI.options[actionClass.name] = Object.fromEntries(
+            Object.entries(actionClass.options).map(([key, val]) => [key, Array.isArray(val) ? val : Object.keys(val)])
         );
     },
 };
