@@ -379,15 +379,19 @@ export class ActiveEffect extends Action {
                 await actor.updateEmbeddedDocuments('ActiveEffect', updateEffects);
                 await actor.createEmbeddedDocuments('ActiveEffect', createEffects);
                 // TODO print
+                if (print) {
+                }
             },
             remove: async (actor, { effectData, print }) => {
-                const effectsToRemove = [];
+                const removeEffects = [];
                 effectData.forEach((e) => {
-                    const effect = actor.effects.find((f) => f.label === e.label);
-                    if (effect) effectsToRemove.push(effect.id);
+                    const effect = actor.effects.find((f) => this.compareEffects(e, f));
+                    if (effect) removeEffects.push(effect.id);
                 });
-                await actor.deleteEmbeddedDocuments('ActiveEffect', effectsToRemove);
+                await actor.deleteEmbeddedDocuments('ActiveEffect', removeEffects);
                 // TODO print
+                if (print) {
+                }
             },
             toggle: async () => {},
         },
