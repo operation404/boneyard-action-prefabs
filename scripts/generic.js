@@ -393,7 +393,19 @@ export class ActiveEffect extends Action {
                 if (print) {
                 }
             },
-            toggle: async () => {},
+            toggle: async (actor, { effectData, print }) => {
+                const removeEffects = [];
+                const createEffects = effectData.filter((e) => {
+                    const effect = actor.effects.find((f) => this.compareEffects(e, f));
+                    if (effect) removeEffects.push(effect.id);
+                    else return true;
+                });
+                await actor.createEmbeddedDocuments('ActiveEffect', createEffects);
+                await actor.deleteEmbeddedDocuments('ActiveEffect', removeEffects);
+                // TODO print
+                if (print) {
+                }
+            },
         },
     };
 
