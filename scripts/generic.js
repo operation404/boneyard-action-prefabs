@@ -298,6 +298,12 @@ export class UpdateDoc extends Action {
     }
 }
 
+/**
+ * @class
+ * @extends Action
+ * @classdesc       Action that makes a roll and resolves additional actions
+ *                  based on the result.
+ */
 export class Roll extends Action {
     static options = {
         operations: {
@@ -355,6 +361,11 @@ export class Roll extends Action {
     }
 }
 
+/**
+ * @class
+ * @extends Action
+ * @classdesc       Action that applies an active effect to an actor document.
+ */
 export class ActiveEffect extends Action {
     static options = {
         operations: {
@@ -378,6 +389,7 @@ export class ActiveEffect extends Action {
                 await actor.deleteEmbeddedDocuments('ActiveEffect', effectsToRemove);
                 // TODO print
             },
+            toggle: async () => {},
         },
     };
 
@@ -422,6 +434,11 @@ export class ActiveEffect extends Action {
     }
 }
 
+/**
+ * @class
+ * @extends Action
+ * @classdesc       Action that applies a system status effect to an actor document.
+ */
 export class StatusEffect extends ActiveEffect {
     static options = {
         statusEffects: CONFIG.statusEffects.map((e) => e.id),
@@ -437,12 +454,11 @@ export class StatusEffect extends ActiveEffect {
         data.statuses = Array.isArray(data.statuses) ? data.statuses : [data.statuses];
         const { operation, statuses, print } = data;
         const effectData = statuses.map((status) => {
-            const statusData = CONFIG.statusEffects.find((s) => s.id === status);
-            return {
-                label: statusData?.name.split('EFFECT.Status')[1],
-                statuses: [status],
-                icon: statusData?.icon,
-            };
+            const statusData = foundry.utils.deepClone(CONFIG.statusEffects.find((s) => s.id === status));
+            statusData.statuses = [statusData.id];
+            delete statusData.id;
+            statusData.name = game.i18n.localize(statusData.name);
+            return statusData;
         });
         super({ operation, effectData, print: print ?? false });
     }

@@ -5,6 +5,7 @@ import * as WWN from './systems/wwn.js';
 import * as DND5E from './systems/dnd5e.js';
 
 const actionMap = {};
+
 export const actionAPI = {
     options: {},
     types: {},
