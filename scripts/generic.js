@@ -409,10 +409,10 @@ export class ActiveEffect extends Action {
         },
     };
 
-    static compareEffects(ef1, ef2) {
-        const name = ef1.name === ef2.name;
-        const len = ef1.statuses.length === ef2.statuses.length;
-        const status = ef1.statuses.every((v) => ef2.statuses.includes(v));
+    static compareEffects(e, f) {
+        const name = e.name === f.name;
+        const len = e.statuses.length === f.statuses.size;
+        const status = e.statuses.every((v) => f.statuses.has(v));
         return name && len && status;
     }
 
