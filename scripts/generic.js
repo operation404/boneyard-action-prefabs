@@ -376,7 +376,7 @@ export class ActiveEffect extends Action {
                     const effectNames = [
                         ...newEffects.map((e) => e.name),
                         ...existingEffects.map((e) => e.name),
-                    ].reduce((ef, str, idx) => (idx ? `${str}, ${ef.name}` : ef.name), null);
+                    ].reduce((ef, str, idx) => (idx ? `${str}, ${ef}` : ef), false);
                     if (effectNames)
                         await ChatMessage.create({
                             speaker: ChatMessage.getSpeaker({ actor }),
@@ -392,7 +392,7 @@ export class ActiveEffect extends Action {
                 if (print) {
                     const effectNames = existingEffects
                         .map((e) => e.name)
-                        .reduce((ef, str, idx) => (idx ? `${str}, ${ef.name}` : ef.name), null);
+                        .reduce((ef, str, idx) => (idx ? `${str}, ${ef}` : ef), false);
                     if (effectNames)
                         await ChatMessage.create({
                             speaker: ChatMessage.getSpeaker({ actor }),
