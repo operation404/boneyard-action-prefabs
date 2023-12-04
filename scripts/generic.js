@@ -369,42 +369,40 @@ export class Roll extends Action {
 export class ActiveEffect extends Action {
     static options = {
         operations: {
-            apply: async (actor, { effectData, print }) => {
-                const updateEffects = [];
-                const createEffects = effectData.filter((e) => {
-                    const effect = actor.effects.find((f) => this.compareEffects(e, f));
-                    if (effect) updateEffects.push({ _id: effect.id, ...e });
-                    else return true;
-                });
-                await actor.updateEmbeddedDocuments('ActiveEffect', updateEffects);
-                await actor.createEmbeddedDocuments('ActiveEffect', createEffects);
-                // TODO print
+            apply: async (actor, newEffects, existingEffects, print) => {
+                await actor.updateEmbeddedDocuments('ActiveEffect', existingEffects);
+                await actor.createEmbeddedDocuments('ActiveEffect', newEffects);
                 if (print) {
+                    const effectNames = [
+                        ...newEffects.map((e) => e.name),
+                        ...existingEffects.map((e) => e.name),
+                    ].reduce((ef, str, idx) => (idx ? `${str}, ${ef.name}` : ef.name), null);
+                    if (effectNames)
+                        await ChatMessage.create({
+                            speaker: ChatMessage.getSpeaker({ actor }),
+                            content: `<span>${actor.name} gains effects: ${effectNames}.</span><br>`,
+                        });
                 }
             },
-            remove: async (actor, { effectData, print }) => {
-                const removeEffects = [];
-                effectData.forEach((e) => {
-                    const effect = actor.effects.find((f) => this.compareEffects(e, f));
-                    if (effect) removeEffects.push(effect.id);
-                });
-                await actor.deleteEmbeddedDocuments('ActiveEffect', removeEffects);
-                // TODO print
+            remove: async (actor, newEffects, existingEffects, print) => {
+                await actor.deleteEmbeddedDocuments(
+                    'ActiveEffect',
+                    existingEffects.map((e) => e._id)
+                );
                 if (print) {
+                    const effectNames = existingEffects
+                        .map((e) => e.name)
+                        .reduce((ef, str, idx) => (idx ? `${str}, ${ef.name}` : ef.name), null);
+                    if (effectNames)
+                        await ChatMessage.create({
+                            speaker: ChatMessage.getSpeaker({ actor }),
+                            content: `<span>${actor.name} loses effects: ${effectNames}.</span><br>`,
+                        });
                 }
             },
-            toggle: async (actor, { effectData, print }) => {
-                const removeEffects = [];
-                const createEffects = effectData.filter((e) => {
-                    const effect = actor.effects.find((f) => this.compareEffects(e, f));
-                    if (effect) removeEffects.push(effect.id);
-                    else return true;
-                });
-                await actor.createEmbeddedDocuments('ActiveEffect', createEffects);
-                await actor.deleteEmbeddedDocuments('ActiveEffect', removeEffects);
-                // TODO print
-                if (print) {
-                }
+            toggle: async (actor, newEffects, existingEffects, print) => {
+                this.options.operations.apply(actor, newEffects, [], print);
+                this.options.operations.remove(actor, null, existingEffects, print);
             },
         },
     };
@@ -450,7 +448,13 @@ export class ActiveEffect extends Action {
     }
 
     static async resolve(actor, data) {
-        await this.options.operations[data.operation](actor, data);
+        const existingEffects = [];
+        const newEffects = data.effectData.filter((e) => {
+            const effect = actor.effects.find((f) => this.compareEffects(e, f));
+            if (effect) existingEffects.push({ _id: effect.id, ...e });
+            else return true;
+        });
+        await this.options.operations[data.operation](actor, newEffects, existingEffects, data.print);
     }
 }
 
