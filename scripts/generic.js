@@ -229,13 +229,13 @@ export class Comparison extends Action {
      * @throws 'attributePath' does not exist or its value is undefined.
      * @throws Attribute value and 'value' parameter not same type.
      */
-    static resolve(document, { operation, attributePath, value, trueActions, falseActions }) {
+    static async resolve(document, { operation, attributePath, value, trueActions, falseActions }) {
         let attributeValue = document;
         attributePath.split('.').forEach((pathToken) => (attributeValue = attributeValue?.[pathToken]));
         if (attributeValue === undefined) throw `'attributePath' does not exist or its value is undefined.`;
         //if (typeof attributeValue !== typeof value) throw `Attribute value and 'value' parameter not same type.`;
-        if (this.options.operations[operation](attributeValue, value)) _resolveParse(document, trueActions);
-        else _resolveParse(document, falseActions);
+        if (this.options.operations[operation](attributeValue, value)) await _resolveParse(document, trueActions);
+        else await _resolveParse(document, falseActions);
     }
 }
 
@@ -286,7 +286,7 @@ export class UpdateDoc extends Action {
      * @throws 'attributePath' does not exist or its value is undefined.
      * @throws Attribute value and 'value' parameter not same type.
      */
-    static resolve(document, { updates }) {
+    static async resolve(document, { updates }) {
         const updateEntries = updates.map(({ attributePath, method, value }) => {
             let attributeValue = document;
             attributePath.split('.').forEach((pathToken) => (attributeValue = attributeValue?.[pathToken]));
@@ -294,7 +294,7 @@ export class UpdateDoc extends Action {
             if (typeof attributeValue !== typeof value) throw `Attribute value and 'value' parameter not same type.`;
             return [attributePath, this.options.operations[method](value, attributeValue)];
         });
-        document.update(Object.fromEntries(updateEntries));
+        await document.update(Object.fromEntries(updateEntries));
     }
 }
 
