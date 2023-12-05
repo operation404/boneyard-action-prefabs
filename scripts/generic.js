@@ -160,7 +160,7 @@ export class Action {
      * @param {Document} document
      * @param {object} data
      */
-    static resolve(document, data) {
+    static async resolve(document, data) {
         throw `Cannot call abstract method.`;
     }
 }
@@ -493,8 +493,8 @@ export class StatusEffect extends ActiveEffect {
         super.validateData.bind(Object.getPrototypeOf(this))(data);
     }
 
-    static resolve(actor, data) {
-        super.resolve.bind(Object.getPrototypeOf(this))(actor, data);
+    static async resolve(actor, data) {
+        await super.resolve.bind(Object.getPrototypeOf(this))(actor, data);
     }
 }
 
