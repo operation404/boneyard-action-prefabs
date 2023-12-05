@@ -4,6 +4,12 @@ import { _resolveParse } from '../handler.js';
 export const systemId = 'dnd5e';
 
 class Damage extends Action {
+    static options = {
+        get damageTypes() {
+            return Object.keys(CONFIG.DND5E.damageTypes);
+        },
+    };
+
     /**
      * @param {object} data
      * @param {string} data.damageType
@@ -22,7 +28,7 @@ class Damage extends Action {
      * @param {boolean} data.print
      */
     static validateData({ damageType, value, print }) {
-        Validate.isObjField({ damageType }, CONFIG.DND5E.damageTypes);
+        Validate.isObjField({ damageType }, this.options.damageTypes);
         Validate.isInteger({ value });
         Validate.isBoolean({ print });
     }
