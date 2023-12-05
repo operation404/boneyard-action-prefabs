@@ -28,7 +28,7 @@ class Damage extends Action {
      * @param {boolean} data.print
      */
     static validateData({ damageType, value, print }) {
-        Validate.isObjField({ damageType }, this.options.damageTypes);
+        Validate.isInArray({ damageType }, this.options.damageTypes);
         Validate.isInteger({ value });
         Validate.isBoolean({ print });
     }
