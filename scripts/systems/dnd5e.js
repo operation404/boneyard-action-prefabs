@@ -261,8 +261,8 @@ class CreatureType extends Comparison {
             operation: 'in',
             attributePath: 'system.details.type.value',
             value: Array.isArray(type) ? type : [type],
-            trueActions: trueActions,
-            false: falseActions,
+            trueActions,
+            falseActions,
         });
     }
 
