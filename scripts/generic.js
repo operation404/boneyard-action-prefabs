@@ -193,11 +193,12 @@ export class Comparison extends Action {
      * @param {string} data.operation
      * @param {string} data.attributePath
      * @param {!*} data.value
-     * @param {Action|Action[]} data.trueActions
+     * @param {Action|Action[]} [data.trueActions]
      * @param {Action|Action[]} [data.falseActions]
      */
     constructor(data) {
-        data.trueActions = Array.isArray(data.trueActions) ? data.trueActions : [data.trueActions];
+        if (!data.hasOwnProperty('trueActions')) data.trueActions = [];
+        else data.trueActions = Array.isArray(data.trueActions) ? data.trueActions : [data.trueActions];
         if (!data.hasOwnProperty('falseActions')) data.falseActions = [];
         else data.falseActions = Array.isArray(data.falseActions) ? data.falseActions : [data.falseActions];
         super(data);
@@ -321,12 +322,13 @@ export class Roll extends Action {
      * @param {string} data.rollStr
      * @param {string} data.operation
      * @param {number} data.value
-     * @param {Action|Action[]} data.trueActions
+     * @param {Action|Action[]} [data.trueActions]
      * @param {Action|Action[]} [data.falseActions]
      * @param {boolean} [data.print]
      */
     constructor(data) {
-        data.trueActions = Array.isArray(data.trueActions) ? data.trueActions : [data.trueActions];
+        if (!data.hasOwnProperty('trueActions')) data.trueActions = [];
+        else data.trueActions = Array.isArray(data.trueActions) ? data.trueActions : [data.trueActions];
         if (!data.hasOwnProperty('falseActions')) data.falseActions = [];
         else data.falseActions = Array.isArray(data.falseActions) ? data.falseActions : [data.falseActions];
         if (!data.hasOwnProperty('print')) data.print = false;
@@ -523,7 +525,7 @@ export class Disposition extends Comparison {
      * @param {object} data
      * @param {string} data.operation
      * @param {number} data.value
-     * @param {Action|Action[]} data.trueActions
+     * @param {Action|Action[]} [data.trueActions]
      * @param {Action|Action[]} [data.falseActions]
      */
     constructor({ operation, value, trueActions, falseActions }) {

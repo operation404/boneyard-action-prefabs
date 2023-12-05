@@ -131,7 +131,7 @@ class Roll5E extends Roll {
      * @param {string} data.type
      * @param {number} [data.bonus]
      * @param {number} data.dc
-     * @param {Action|Action[]} data.trueActions
+     * @param {Action|Action[]} [data.trueActions]
      * @param {Action|Action[]} [data.falseActions]
      * @param {boolean} [data.print]
      */
@@ -253,7 +253,7 @@ class CreatureType extends Comparison {
     /**
      * @param {object} data
      * @param {string|string[]} data.type
-     * @param {Action|Action[]} data.trueActions
+     * @param {Action|Action[]} [data.trueActions]
      * @param {Action|Action[]} [data.falseActions]
      */
     constructor({ type, trueActions, falseActions }) {
