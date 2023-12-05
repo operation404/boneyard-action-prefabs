@@ -498,4 +498,56 @@ export class StatusEffect extends ActiveEffect {
     }
 }
 
-export const actions = [Comparison, UpdateDoc, Roll, ActiveEffect, StatusEffect];
+/**
+ * @class
+ * @extends Action
+ * @classdesc       Action that resolves subactions based on the token's disposition.
+ */
+export class Disposition extends Comparison {
+    static options = {
+        get tokenDisposition() {
+            // friendly: 1, netural: 0, hostile: -1, secret: -2
+            return CONST.TOKEN_DISPOSITIONS;
+        },
+        operations: {
+            '=': (a, b) => a === b,
+            '!=': (a, b) => a !== b,
+            '>': (a, b) => a > b,
+            '<': (a, b) => a < b,
+            '>=': (a, b) => a >= b,
+            '<=': (a, b) => a <= b,
+        },
+    };
+
+    /**
+     * @param {object} data
+     * @param {string} data.operation
+     * @param {number} data.value
+     * @param {Action|Action[]} data.trueActions
+     * @param {Action|Action[]} [data.falseActions]
+     */
+    constructor({ operation, value, trueActions, falseActions }) {
+        super({
+            attributePath: 'disposition',
+            operation,
+            value,
+            trueActions,
+            falseActions,
+        });
+    }
+
+    /**
+     * @param {object} data
+     * @param {string} data.operation
+     * @param {number} data.value
+     * @param {Action[]} data.trueActions
+     * @param {Action[]} data.falseActions
+     */
+    static validateData({ operation, value, trueActions, falseActions }) {
+        Validate.isInArray({ operation }, Object.keys(this.options.operations));
+        Validate.isInArray({ value }, Object.values(this.options.tokenDisposition));
+        Validate.isClass({ trueActions, falseActions }, Action);
+    }
+}
+
+export const actions = [Comparison, UpdateDoc, Roll, ActiveEffect, StatusEffect, Disposition];
