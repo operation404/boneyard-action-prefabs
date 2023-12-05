@@ -500,7 +500,7 @@ export class StatusEffect extends ActiveEffect {
 
 /**
  * @class
- * @extends Action
+ * @extends Comparison
  * @classdesc       Action that resolves subactions based on the token's disposition.
  */
 export class Disposition extends Comparison {
@@ -547,6 +547,43 @@ export class Disposition extends Comparison {
         Validate.isInArray({ operation }, Object.keys(this.options.operations));
         Validate.isInArray({ value }, Object.values(this.options.tokenDisposition));
         Validate.isClass({ trueActions, falseActions }, Action);
+    }
+}
+
+/**
+ * @class
+ * @extends Action
+ * @classdesc       Action that resolves subactions on the passed token's actor document.
+ */
+export class TokenActor extends Action {
+    /**
+     * @param {object} data
+     * @param {Action|Action[]} data.actions
+     */
+    constructor(data) {
+        data.actions = Array.isArray(data.actions) ? data.actions : [data.actions];
+        super(data);
+    }
+
+    /**
+     * @param {object} data
+     * @param {Action[]} data.actions
+     */
+    static validateData({ actions }) {
+        Validate.isClass({ actions }, Action);
+    }
+
+    /**
+     * @param {TokenDocument} token
+     * @param {object} data
+     * @param {Action[]} data.actions
+     * @throws 'token' is not an instance of TokenDocument.
+     * @throws 'token' does not have an actor.
+     */
+    static async resolve(token, { actions }) {
+        if (!(token instanceof TokenDocument)) throw `'token' is not an instance of TokenDocument`;
+        if (!token.actor) throw `'token' does not have an actor.`;
+        await _resolveParse(token.actor, actions);
     }
 }
 
