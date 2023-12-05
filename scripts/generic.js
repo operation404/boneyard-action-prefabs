@@ -465,7 +465,9 @@ export class ActiveEffect extends Action {
  */
 export class StatusEffect extends ActiveEffect {
     static options = {
-        statusEffects: CONFIG.statusEffects.map((e) => e.id),
+        get statusEffect() {
+            return CONFIG.statusEffects.map((e) => e.id);
+        },
     };
 
     /**

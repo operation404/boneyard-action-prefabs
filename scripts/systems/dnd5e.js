@@ -239,12 +239,9 @@ class SkillCheck extends Roll5E {
 
 class CreatureType extends Comparison {
     static options = {
-        //types: Object.keys(CONFIG.DND5E.creatureTypes),
-        // TODO
-        // Have action init method to set values available later in setup
-        // Actually I should probably not use hardcoded values here after all
-        // I should be checking at creation time in the live game, as it's possible
-        // the user has added new types/etc, same with other features
+        get creatureTypes() {
+            return Object.keys(CONFIG.DND5E.creatureTypes);
+        },
     };
 
     /**
@@ -265,7 +262,7 @@ class CreatureType extends Comparison {
 
     static validateData(data) {
         const { value } = data;
-        Validate.isObjField({ value }, CONFIG.DND5E.creatureTypes);
+        Validate.isObjField({ value }, this.options.creatureTypes);
         super.validateData.bind(Object.getPrototypeOf(this))(data);
     }
 
