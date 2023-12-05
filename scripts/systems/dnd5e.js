@@ -32,7 +32,7 @@ class Damage extends Action {
      * @param {ActorDocument} actor
      * @param {string} damageType
      */
-    static _getMultiplier(actor, damageType) {
+    static getMultiplier(actor, damageType) {
         const { di: damageImmunities, dr: damageResistances, dv: damageVulnerabilities } = actor.system.traits;
         if (damageResistances.value.has(damageType)) {
             return 0.5;
@@ -49,7 +49,7 @@ class Damage extends Action {
      * @param {number} value
      * @param {string} damageType
      */
-    static async _print(actor, value, damageType) {
+    static async print(actor, value, damageType) {
         await ChatMessage.create({
             speaker: ChatMessage.getSpeaker({ actor }),
             content: `<span>${actor.name} takes ${value} ${CONFIG.DND5E.damageTypes[damageType]} damage.</span><br>`,
@@ -66,9 +66,9 @@ class Damage extends Action {
      * @param {boolean} data.print
      */
     static async resolve(actor, { damageType, value, print }) {
-        const multiplier = this._getMultiplier(actor, damageType);
+        const multiplier = this.getMultiplier(actor, damageType);
         actor.applyDamage(value, multiplier);
-        if (print) await this._print(actor, value, damageType);
+        if (print) await this.print(actor, value, damageType);
     }
 }
 
@@ -98,7 +98,7 @@ class Healing extends Damage {
      * @param {ActorDocument} actor
      * @param {number} value
      */
-    static _print(actor, value) {
+    static print(actor, value) {
         ChatMessage.create({
             speaker: ChatMessage.getSpeaker({ actor }),
             content: `<span>${actor.name} heals ${value} hp.</span><br>`,
@@ -106,7 +106,7 @@ class Healing extends Damage {
     }
 
     /** @override */
-    static _getMultiplier() {
+    static getMultiplier() {
         return -1;
     }
 }
