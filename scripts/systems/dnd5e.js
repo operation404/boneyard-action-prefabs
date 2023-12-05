@@ -73,7 +73,7 @@ class Damage extends Action {
      */
     static async resolve(actor, { damageType, value, print }) {
         const multiplier = this.getMultiplier(actor, damageType);
-        actor.applyDamage(value, multiplier);
+        await actor.applyDamage(value, multiplier);
         if (print) await this.print(actor, value, damageType);
     }
 }
@@ -104,8 +104,8 @@ class Healing extends Damage {
      * @param {ActorDocument} actor
      * @param {number} value
      */
-    static print(actor, value) {
-        ChatMessage.create({
+    static async print(actor, value) {
+        await ChatMessage.create({
             speaker: ChatMessage.getSpeaker({ actor }),
             content: `<span>${actor.name} heals ${value} hp.</span><br>`,
         });
@@ -272,8 +272,8 @@ class CreatureType extends Comparison {
         super.validateData.bind(Object.getPrototypeOf(this))(data);
     }
 
-    static resolve(actor, data) {
-        if (actor.type === 'npc') super.resolve.bind(Object.getPrototypeOf(this))(actor, data);
+    static async resolve(actor, data) {
+        if (actor.type === 'npc') await super.resolve.bind(Object.getPrototypeOf(this))(actor, data);
     }
 }
 
