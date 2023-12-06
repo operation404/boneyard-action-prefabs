@@ -7,7 +7,9 @@ First Release.
 - Action Prefabs API available through the global `Boneyard.ActionPrefabs` object.
   - Utility methods are provided to create and resolve Action instances.
 - Generic Actions are system agnostic and can be used to modify actors and active effects both directly and conditionally via the results of comparisons or rolls.
+  - Provided Action Prefabs: Comparison, UpdateDoc, Roll, ActiveEffect, StatusEffect, Disposition, and TokenActor.
 - Actions are also provided for the DnD5e system to automate applying damage and healing, making core roll types, and resolving actions based on a creature's type.
+  - Provided Action Prefabs: Damage, Healing, SavingThrow, AbilityCheck, SkillCheck, and CreatureType.
 
 ## 0.1.0
 
