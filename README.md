@@ -2,7 +2,7 @@ See my other modules in the [Boneyard Collection](https://github.com/operation40
 
 # Boneyard Action Prefabs
 
-Boneyard Action Prefabs adds an API for generating and executing Actions Prefabs, small packages of code that can perform commonly used actions in FoundryVTT. They are intended to be used for simplifying the process of writing custom macros for your game, and require minimal coding knowledge to take advantage of.
+Boneyard Action Prefabs adds an API for generating and executing Actions, small packages of code that can automate common actions in FoundryVTT. They are intended to be used for simplifying the process of writing custom macros for your game, and require minimal coding knowledge to take advantage of.
 
 Further documentation and examples can be found in the repository [wiki](https://github.com/operation404/boneyard-action-prefabs/wiki).
 
