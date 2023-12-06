@@ -542,7 +542,7 @@ export class Disposition extends Comparison {
     /**
      * @param {object} data
      * @param {string} data.operation
-     * @param {number} data.value
+     * @param {string} data.value
      * @param {Action[]} data.trueActions
      * @param {Action[]} data.falseActions
      */
@@ -552,6 +552,14 @@ export class Disposition extends Comparison {
         Validate.isClass({ trueActions, falseActions }, Action);
     }
 
+    /**
+     * @param {TokenDocument} token
+     * @param {object} data
+     * @param {string} data.operation
+     * @param {string} data.value
+     * @param {Action[]} data.trueActions
+     * @param {Action[]} data.falseActions
+     */
     static async resolve(token, data) {
         data.value = this.options.tokenDisposition[data.value];
         await super.resolve.bind(Object.getPrototypeOf(this))(token, data);
