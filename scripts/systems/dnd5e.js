@@ -181,6 +181,12 @@ class Roll5E extends Roll {
 }
 
 class SavingThrow extends Roll5E {
+    static options = {
+        get type() {
+            return Object.keys(CONFIG.DND5E.abilities);
+        },
+    };
+
     /**
      * @param {object} data
      * @param {string} data.type
@@ -192,7 +198,7 @@ class SavingThrow extends Roll5E {
      */
     static validateData(data) {
         const { type } = data;
-        Validate.isObjField({ type }, CONFIG.DND5E.abilities);
+        Validate.isInArray({ type }, this.options.type);
         super.validateData(data);
     }
 
@@ -202,6 +208,12 @@ class SavingThrow extends Roll5E {
 }
 
 class AbilityCheck extends Roll5E {
+    static options = {
+        get type() {
+            return Object.keys(CONFIG.DND5E.abilities);
+        },
+    };
+
     /**
      * @param {object} data
      * @param {string} data.type
@@ -213,7 +225,7 @@ class AbilityCheck extends Roll5E {
      */
     static validateData(data) {
         const { type } = data;
-        Validate.isObjField({ type }, CONFIG.DND5E.abilities);
+        Validate.isInArray({ type }, this.options.type);
         super.validateData(data);
     }
 
@@ -223,6 +235,12 @@ class AbilityCheck extends Roll5E {
 }
 
 class SkillCheck extends Roll5E {
+    static options = {
+        get type() {
+            return Object.keys(CONFIG.DND5E.skills);
+        },
+    };
+
     /**
      * @param {object} data
      * @param {string} data.type
@@ -234,7 +252,7 @@ class SkillCheck extends Roll5E {
      */
     static validateData(data) {
         const { type } = data;
-        Validate.isObjField({ type }, CONFIG.DND5E.skills);
+        Validate.isInArray({ type }, this.options.type);
         super.validateData(data);
     }
 
