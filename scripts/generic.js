@@ -255,47 +255,45 @@ export class UpdateDoc extends Action {
 
     /**
      * @param {object} data
-     * @param {object|object[]} data.updates
+     * @param {string} attributePath
+     * @param {string} operation
+     * @param {!*} value
      */
     constructor(data) {
-        data.updates = Array.isArray(data.updates) ? data.updates : [data.updates];
         super(data);
     }
 
     /**
      * @param {object} data
-     * @param {object[]} data.updates
-     * @param {string} data.updates[].attributePath
-     * @param {string} data.updates[].method
-     * @param {!*} data.updates[].value
+     * @param {string} data.attributePath
+     * @param {string} data.method
+     * @param {!*} data.value
      */
-    static validateData({ updates }) {
-        updates.forEach(({ attributePath, method, value }) => {
-            Validate.isString({ attributePath });
-            Validate.isInArray({ method }, Object.keys(this.options.operations));
-            Validate.isNotNull({ value });
-        });
+    static validateData({ attributePath, method, value }) {
+        Validate.isString({ attributePath });
+        Validate.isInArray({ method }, Object.keys(this.options.operations));
+        Validate.isNotNull({ value });
     }
 
     /**
      * @param {Document} document
      * @param {object} data
-     * @param {object[]} data.updates
-     * @param {string} data.updates[].attributePath
-     * @param {string} data.updates[].method
-     * @param {!*} data.updates[].value
+     * @param {string} data.attributePath
+     * @param {string} data.method
+     * @param {!*} data.value
      * @throws 'attributePath' does not exist or its value is undefined.
      * @throws Attribute value and 'value' parameter not same type.
      */
-    static async resolve(document, { updates }) {
-        const updateEntries = updates.map(({ attributePath, method, value }) => {
+    static async resolve(document, { attributePath, method, value }) {
+        if (!!attributePath) {
             let attributeValue = document;
             attributePath.split('.').forEach((pathToken) => (attributeValue = attributeValue?.[pathToken]));
             if (attributeValue === undefined) throw `'attributePath' does not exist or its value is undefined.`;
             if (typeof attributeValue !== typeof value) throw `Attribute value and 'value' parameter not same type.`;
-            return [attributePath, this.options.operations[method](value, attributeValue)];
-        });
-        await document.update(Object.fromEntries(updateEntries));
+            await document.update({
+                [attributePath]: this.options.operations[method](value, attributeValue),
+            });
+        }
     }
 }
 
