@@ -2,7 +2,7 @@
 
 ## 1.0.0
 
-First Release.
+First proper release.
 
 - Action Prefabs API available through the global `Boneyard.ActionPrefabs` object.
   - Utility methods are provided to create and resolve Action instances.
