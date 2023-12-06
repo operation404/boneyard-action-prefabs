@@ -531,7 +531,7 @@ export class Disposition extends Comparison {
     constructor({ operation, value, trueActions, falseActions }) {
         super({
             attributePath: 'disposition',
-            value: CONST.TOKEN_DISPOSITIONS[value],
+            value: this.options.tokenDisposition[value],
             operation,
             trueActions,
             falseActions,
