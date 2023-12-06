@@ -529,13 +529,14 @@ export class Disposition extends Comparison {
      * @param {Action|Action[]} [data.falseActions]
      */
     constructor({ operation, value, trueActions, falseActions }) {
-        super({
+        const data = {
             attributePath: 'disposition',
-            value: this.options.tokenDisposition[value],
+            value,
             operation,
-            trueActions,
-            falseActions,
-        });
+        };
+        if (trueActions) data.trueActions = trueActions;
+        if (falseActions) data.falseActions = falseActions;
+        super(data);
     }
 
     /**
@@ -547,8 +548,13 @@ export class Disposition extends Comparison {
      */
     static validateData({ operation, value, trueActions, falseActions }) {
         Validate.isInArray({ operation }, Object.keys(this.options.operations));
-        Validate.isInArray({ value }, Object.values(this.options.tokenDisposition));
+        Validate.isInArray({ value }, Object.keys(this.options.tokenDisposition));
         Validate.isClass({ trueActions, falseActions }, Action);
+    }
+
+    static async resolve(token, data) {
+        data.value = this.options.tokenDisposition[data.value];
+        await super.resolve.bind(Object.getPrototypeOf(this))(token, data);
     }
 }
 

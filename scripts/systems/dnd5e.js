@@ -257,13 +257,14 @@ class CreatureType extends Comparison {
      * @param {Action|Action[]} [data.falseActions]
      */
     constructor({ type, trueActions, falseActions }) {
-        super({
+        const data = {
             operation: 'in',
             attributePath: 'system.details.type.value',
             value: Array.isArray(type) ? type : [type],
-            trueActions,
-            falseActions,
-        });
+        };
+        if (trueActions) data.trueActions = trueActions;
+        if (falseActions) data.falseActions = falseActions;
+        super(data);
     }
 
     static validateData(data) {
