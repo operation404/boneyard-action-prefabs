@@ -589,4 +589,4 @@ export class TokenActor extends Action {
     }
 }
 
-export const actions = [Comparison, UpdateDoc, Roll, ActiveEffect, StatusEffect, Disposition];
+export const actions = [Comparison, UpdateDoc, Roll, ActiveEffect, StatusEffect, Disposition, TokenActor];
