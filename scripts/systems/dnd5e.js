@@ -3,6 +3,13 @@ import { _resolveParse } from '../handler.js';
 
 export const systemId = 'dnd5e';
 
+/**
+ * @class
+ * @extends Action
+ * @classdesc       Applies damage to the actor using the 5e `applyDamage` method.
+ *                  Attempts to account for the actor's damage resistances, immunities,
+ *                  and vulnerabilities.
+ */
 class Damage extends Action {
     static options = {
         get damageTypes() {
@@ -78,6 +85,11 @@ class Damage extends Action {
     }
 }
 
+/**
+ * @class
+ * @extends Damage
+ * @classdesc       Applies healing to the actor using the 5e `applyDamage` method.
+ */
 class Healing extends Damage {
     /**
      * @param {object} data
@@ -120,6 +132,9 @@ class Healing extends Damage {
 /**
  * @class
  * @abstract
+ * @extends Roll
+ * @classdesc       Resolves a roll using the 5e roll methods. Must be extended
+ *                  to implement a specific roll type.
  */
 class Roll5E extends Roll {
     static options = {};
@@ -180,6 +195,12 @@ class Roll5E extends Roll {
     }
 }
 
+/**
+ * @class
+ * @extends Roll5E
+ * @classdesc       Makes a Saving Throw using the 5e `rollAbilitySave` method and
+ *                  resolves subactions based on the result.
+ */
 class SavingThrow extends Roll5E {
     static options = {
         get type() {
@@ -207,6 +228,12 @@ class SavingThrow extends Roll5E {
     }
 }
 
+/**
+ * @class
+ * @extends Roll5E
+ * @classdesc       Makes an Ability Check using the 5e `rollAbilityTest` method and
+ *                  resolves subactions based on the result.
+ */
 class AbilityCheck extends Roll5E {
     static options = {
         get type() {
@@ -234,6 +261,12 @@ class AbilityCheck extends Roll5E {
     }
 }
 
+/**
+ * @class
+ * @extends Roll5E
+ * @classdesc       Makes a Skill Check using the 5e `rollSkill` method and
+ *                  resolves subactions based on the result.
+ */
 class SkillCheck extends Roll5E {
     static options = {
         get type() {
@@ -261,6 +294,11 @@ class SkillCheck extends Roll5E {
     }
 }
 
+/**
+ * @class
+ * @extends Comparison
+ * @classdesc       Resolves subactions based on the actor's creature type.
+ */
 class CreatureType extends Comparison {
     static options = {
         get creatureTypes() {
