@@ -4,7 +4,7 @@ export const SOCKET = `module.${MODULE}`;
 export const SETTINGS = Object.freeze(
     Object.fromEntries(
         [
-            'PLAYERS_CAN_USE_ACTIONS',
+            'WHO_CAN_USE_ACTIONS',
         ].map((v) => [v, v])
     )
 );

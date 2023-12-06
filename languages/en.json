@@ -1,4 +1,8 @@
 {
-    "SETTINGS.NAME.PLAYERS_CAN_USE_ACTIONS": "Allow Players to use Action Prefabs",
-    "SETTINGS.HINT.PLAYERS_CAN_USE_ACTIONS": "Action Prefabs can modify documents not controlled by the player. This setting can be disabled to prevent non-gamemasters from using them."
+    "SETTINGS.NAME.WHO_CAN_USE_ACTIONS": "Who can use Action Prefabs",
+    "SETTINGS.HINT.WHO_CAN_USE_ACTIONS": "Action Prefabs can modify documents not controlled by the player. This setting can restrict their usage to only Trusted Players or Gamemasters.",
+
+    "SETTINGS.CHOICES.WHO_CAN_USE_ACTIONS.GM": "Gamemasters Only",
+    "SETTINGS.CHOICES.WHO_CAN_USE_ACTIONS.TRUSTED": "Gamemasters and Trusted",
+    "SETTINGS.CHOICES.WHO_CAN_USE_ACTIONS.ALL": "Everyone"
 }

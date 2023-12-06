@@ -54,12 +54,11 @@ async function resolveActions(document, actions) {
         if (document === undefined) throw `Invalid Document UUID.`;
     }
 
-    if (game.user.isGM) {
-        await _resolveParse(document, actions);
-    } else {
-        if (game.settings.get(CONST.MODULE, CONST.SETTINGS.PLAYERS_CAN_USE_ACTIONS)) {
-            socket.executeAsGM(resolveActions.name, document.uuid, actions);
-        } else throw `Players disallowed from using action prefabs.`;
+    if (game.user.isGM) await _resolveParse(document, actions);
+    else {
+        const minRoleRequired = parseInt(game.settings.get(CONST.MODULE, CONST.SETTINGS.WHO_CAN_USE_ACTIONS));
+        if (game.user.role >= minRoleRequired) socket.executeAsGM(resolveActions.name, document.uuid, actions);
+        else ui.notifications.error(`You aren't permitted to use Action Prefabs.`);
     }
 }
 
