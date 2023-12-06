@@ -524,15 +524,15 @@ export class Disposition extends Comparison {
     /**
      * @param {object} data
      * @param {string} data.operation
-     * @param {number} data.value
+     * @param {string} data.value
      * @param {Action|Action[]} [data.trueActions]
      * @param {Action|Action[]} [data.falseActions]
      */
     constructor({ operation, value, trueActions, falseActions }) {
         super({
             attributePath: 'disposition',
+            value: CONST.TOKEN_DISPOSITIONS[value],
             operation,
-            value,
             trueActions,
             falseActions,
         });
